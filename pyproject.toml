@@ -1,6 +1,6 @@
 [project]
 name = "pyinsts"
-version = "0.0.3.3"
+version = "0.0.4"
 description = "PyVISA仪器控制库，支持Keysight和Rohde&Schwarz仪器"
 authors = [
     { name = "zhangxp93", email = "937097345@qq.com" }
@@ -9,6 +9,11 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "colorlog>=6.9.0",
+    "ftd2xx>=1.3.8",
+    "loguru>=0.7.3",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "pyserial>=3.5",
     "pyvisa>=1.14.1",
     "pyyaml>=6.0.3",
     "versioningit>=3.3.0",

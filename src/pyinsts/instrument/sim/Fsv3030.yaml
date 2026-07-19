@@ -1,0 +1,450 @@
+spec: "1.0"
+resources:
+  USB::0x0AAD::0x0119::100001::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+    - q: "*IDN?"
+      r: "Rohde&Schwarz,FSV3030,100001,3.40"
+    - q: "*CLS"
+    - q: "*RST"
+    - q: "*OPC?"
+      r: '1'
+    - q: ABOR
+    - q: INIT:CONT OFF
+    - q: INIT:CONT ON
+    - q: INIT:IMM
+    - q: SYST:COMM:INT:REM OFF
+    - q: CALC:MARK:AOFF
+    - q: SENS:ADJ:CONF:FREQ:AUT:STAT OFF
+    - q: CALC1:MARK:AOFF
+    - q: INST SAN
+    - q: SENS:FREQ:SPAN:FULL
+    - q: CALC:MARK:MAX
+    - q: 'SENS:BAND:RES:AUTO ON '
+    - q: 'SENS:BAND:VID:AUTO ON '
+    - q: CALC:MARK1:FUNC:CENT
+    - q: HCOP:IMM
+    - q: FORMat:DEXPort:FORMat CSV
+    - q: FORMat:DEXPort:CSEParator COMMa
+    properties:
+      syst_disp_upd:
+        default: 'ON'
+        type: str
+        setter:
+          q: SYST:DISP:UPD {}
+      syst_err_disp:
+        default: 'ON'
+        type: str
+        setter:
+          q: SYST:ERR:DISP {}
+      inst_ren:
+        default: ''
+        type: str
+        setter:
+          q: INST:REN {}
+      inst:
+        default: Spectrum
+        type: str
+        setter:
+          q: INST {}
+      freq_cent:
+        default: 10000
+        type: float
+        setter:
+          q: :FREQ:CENT {}
+        getter:
+          q: :FREQ:CENT?
+          r: '{}'
+      freq_span:
+        default: 10MHz
+        type: str
+        setter:
+          q: FREQ:SPAN {}
+      band_res:
+        default: 1MHz
+        type: str
+        setter:
+          q: SENS:BAND:RES {}
+      disp_rlevel:
+        default: 0.0
+        type: float
+        setter:
+          q: DISPlay:WINDow1:TRACe1:Y:SCALe:RLEVel {}
+      disp_range:
+        default: 100.0
+        type: float
+        setter:
+          q: DISP:WINDow1:SUBW:TRAC1:Y:SCAL {}
+      calc_mark_max_auto:
+        default: 'ON'
+        type: str
+        setter:
+          q: CALCulate1:MARKer1:MAXimum:AUTO {}
+      mmem_name:
+        default: ''
+        type: str
+        setter:
+          q: MMEM:NAME {}
+      mmem_trace:
+        default: ''
+        type: str
+        setter:
+          q: MMEM:STOR1:TRAC 1,{}
+      calc_delt_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:DELT:STAT {}
+      calc_mark1_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK1:STAT {}
+      calc_mark1_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK1:X {}
+        getter:
+          q: CALC:MARK1:X?
+          r: '{}'
+      calc_mark1_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK1:Y?
+          r: '{}'
+      calc1_delt1_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT1:STAT {}
+      calc1_delt1_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT1:X {}
+      calc_delt1_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT1:X?
+          r: '{}'
+      calc_delt1_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT1:Y?
+          r: '{}'
+      calc_mark2_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK2:STAT {}
+      calc_mark2_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK2:X {}
+        getter:
+          q: CALC:MARK2:X?
+          r: '{}'
+      calc_mark2_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK2:Y?
+          r: '{}'
+      calc1_delt2_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT2:STAT {}
+      calc1_delt2_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT2:X {}
+      calc_delt2_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT2:X?
+          r: '{}'
+      calc_delt2_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT2:Y?
+          r: '{}'
+      calc_mark3_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK3:STAT {}
+      calc_mark3_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK3:X {}
+        getter:
+          q: CALC:MARK3:X?
+          r: '{}'
+      calc_mark3_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK3:Y?
+          r: '{}'
+      calc1_delt3_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT3:STAT {}
+      calc1_delt3_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT3:X {}
+      calc_delt3_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT3:X?
+          r: '{}'
+      calc_delt3_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT3:Y?
+          r: '{}'
+      calc_mark4_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK4:STAT {}
+      calc_mark4_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK4:X {}
+        getter:
+          q: CALC:MARK4:X?
+          r: '{}'
+      calc_mark4_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK4:Y?
+          r: '{}'
+      calc1_delt4_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT4:STAT {}
+      calc1_delt4_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT4:X {}
+      calc_delt4_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT4:X?
+          r: '{}'
+      calc_delt4_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT4:Y?
+          r: '{}'
+      calc_mark5_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK5:STAT {}
+      calc_mark5_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK5:X {}
+        getter:
+          q: CALC:MARK5:X?
+          r: '{}'
+      calc_mark5_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK5:Y?
+          r: '{}'
+      calc1_delt5_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT5:STAT {}
+      calc1_delt5_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT5:X {}
+      calc_delt5_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT5:X?
+          r: '{}'
+      calc_delt5_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT5:Y?
+          r: '{}'
+      calc_mark6_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK6:STAT {}
+      calc_mark6_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK6:X {}
+        getter:
+          q: CALC:MARK6:X?
+          r: '{}'
+      calc_mark6_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK6:Y?
+          r: '{}'
+      calc1_delt6_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT6:STAT {}
+      calc1_delt6_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT6:X {}
+      calc_delt6_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT6:X?
+          r: '{}'
+      calc_delt6_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT6:Y?
+          r: '{}'
+      calc_mark7_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC:MARK7:STAT {}
+      calc_mark7_x:
+        default: 1000000000.0
+        type: float
+        setter:
+          q: CALC:MARK7:X {}
+        getter:
+          q: CALC:MARK7:X?
+          r: '{}'
+      calc_mark7_y:
+        default: -10.5
+        type: float
+        getter:
+          q: CALC:MARK7:Y?
+          r: '{}'
+      calc1_delt7_stat:
+        default: 'OFF'
+        type: str
+        setter:
+          q: CALC1:DELT7:STAT {}
+      calc1_delt7_x:
+        default: 1MHz
+        type: str
+        setter:
+          q: CALC1:DELT7:X {}
+      calc_delt7_x:
+        default: 1000000.0
+        type: float
+        getter:
+          q: CALC:DELT7:X?
+          r: '{}'
+      calc_delt7_y:
+        default: 3.0
+        type: float
+        getter:
+          q: CALC:DELT7:Y?
+          r: '{}'
+      disp_trac1_smo:
+        default: 'OFF'
+        type: str
+        setter:
+          q: DISP:TRAC1:SMO {}
+      disp_trac1_smo_aper:
+        default: 1.5
+        type: float
+        setter:
+          q: DISP:TRAC1:SMO:APER {}
+      disp_trac2_smo:
+        default: 'OFF'
+        type: str
+        setter:
+          q: DISP:TRAC2:SMO {}
+      disp_trac2_smo_aper:
+        default: 1.5
+        type: float
+        setter:
+          q: DISP:TRAC2:SMO:APER {}
+      disp_trac3_smo:
+        default: 'OFF'
+        type: str
+        setter:
+          q: DISP:TRAC3:SMO {}
+      disp_trac3_smo_aper:
+        default: 1.5
+        type: float
+        setter:
+          q: DISP:TRAC3:SMO:APER {}
+      disp_trac4_smo:
+        default: 'OFF'
+        type: str
+        setter:
+          q: DISP:TRAC4:SMO {}
+      disp_trac4_smo_aper:
+        default: 1.5
+        type: float
+        setter:
+          q: DISP:TRAC4:SMO:APER {}
+      disp_trac5_smo:
+        default: 'OFF'
+        type: str
+        setter:
+          q: DISP:TRAC5:SMO {}
+      disp_trac5_smo_aper:
+        default: 1.5
+        type: float
+        setter:
+          q: DISP:TRAC5:SMO:APER {}
+      disp_trac6_smo:
+        default: 'OFF'
+        type: str
+        setter:
+          q: DISP:TRAC6:SMO {}
+      disp_trac6_smo_aper:
+        default: 1.5
+        type: float
+        setter:
+          q: DISP:TRAC6:SMO:APER {}

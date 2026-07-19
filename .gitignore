@@ -94,3 +94,5 @@ Thumbs.db
 .idea/
 .vscode/
 .agent
+/.agents/
+/demo/

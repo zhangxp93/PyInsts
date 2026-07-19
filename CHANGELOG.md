@@ -20,6 +20,20 @@ git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyIn
 
 # 更新日志 CHANGE LOG
 
+
+### [release/v0.0.4](https://github.com/zhangxp93/PyInst.git) `2026.03.08`
+- **核心架构重构与解耦**：
+  - 拆分底层设计为 `instrument`（单数，存放通信 Adapter 与生命周期基类）和 `instrument_drivers`（复数，存放具体的仪器驱动）。
+  - 仪器厂家分类目录以及文件名统一规范为全小写，避免跨系统大小写敏感导致的导入失败问题。
+  - 类名命名规范化为“厂家统一缩写前缀 + 型号驼峰”（如 `KeysightN9020b`、`RsFswp`），解决命名不统一的问题。
+- **百分之百向下兼容**：
+  - 在各个驱动文件底部以及包入口定义并保留了极简的无厂家前缀别名（如 `N9020b = KeysightN9020b`），保证已有使用旧版类的老代码可以直接运行。
+- **打包与版本管理重构**：
+  - 项目集成 `versioningit` 动态版本管理器，支持在发布包时根据 Git Tag 自动决定发布版本。
+  - 修正 `_version.py` 的文件布局，将其移入 `pyinsts` 内部包中，添加了读取失败时的安全降级机制（Fallback），避免了在开发环境下直接运行 Demo 时因缺少 Git Tag 而崩溃的问题。
+- **包依赖管理补充**：
+  - 在项目根目录添加了 `requirements.txt` 依赖配置文件，方便常规 `pip` 用户安装开发与运行环境。
+
 ### [release/v0.0.3.3](https://github.com/zhangxp93/PyInst.git) `2026.03.08`
 - 更新 Keysight N9020B 仪器驱动，修复了直接导入路径依赖的问题（移除了冗余的 `src.` 前缀）
 
