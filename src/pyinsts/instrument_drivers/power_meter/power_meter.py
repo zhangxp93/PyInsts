@@ -1,7 +1,7 @@
 import logging
 from typing import Literal, Optional
 
-from src.pyinsts.instrument_drivers import BaseInstrument
+from pyinsts.instrument_drivers import BaseInstrument
 
 
 class PowerMeter(BaseInstrument):

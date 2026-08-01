@@ -4,7 +4,7 @@ import time
 from typing import Literal, Optional, Union
 
 
-from src.pyinsts.instrument_drivers import BaseInstrument
+from pyinsts.instrument_drivers import BaseInstrument
 
 
 # 定义instrument类，连接instrument频谱仪

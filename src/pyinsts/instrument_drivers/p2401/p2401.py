@@ -14,7 +14,7 @@ import pyvisa
 import pyvisa.constants
 import time
 
-from src.pyinsts.instrument_drivers import BaseInstrument
+from pyinsts.instrument_drivers import BaseInstrument
 
 
 # 定义2401类，连接2401精密电源
