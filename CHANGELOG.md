@@ -19,7 +19,8 @@ git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyIn
 `main`、`dev` 等分支，可能含有开发中的不稳定的新功能。如果用于研究学习或二次开发，建议选择 `release` 开头的分支。
 
 # 更新日志 CHANGE LOG
-
+### [release/v0.0.7](https://github.com/zhangxp93/PyInst.git) `2026.08.01`
+- 修改引用错误
 
 ### [release/v0.0.4](https://github.com/zhangxp93/PyInst.git) `2026.03.08`
 - **核心架构重构与解耦**：
