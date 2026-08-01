@@ -11,13 +11,16 @@
 
 ---
 
-`pyinsts` is a lightweight, robust Python library for instrument automation control. Built on top of `PyVISA`, it provides high-level SCPI command wrappers for common instruments used in RF and electronics testing laboratories, supporting USB, GPIB, and TCP/IP (LAN) connectivity.
+`pyinsts` is a lightweight, robust Python library for instrument automation control. Built on top of `PyVISA`, it provides high-level SCPI command wrappers for spectrum analyzers, signal generators, network analyzers, power supplies, multimeters, and other instruments commonly used in RF and electronics testing labs, while also supporting low-level serial and hardware interface communications.
 
-## ✨ Features
+## ✨ Core Features & Architecture
 
-- 🔌 **Unified Base Class**: Automatically manages the `ResourceManager` session and provides robust `write` and `query` operations.
-- 🔄 **Auto-reconnection Retry**: Built-in 3-retry mechanism for connection failures to gracefully handle temporary hardware handshake timeouts.
-- ⏳ **Efficient Synchronization**: Provides `wait_opc()` to query `*OPC?`, which blocks the Python execution until commands are complete, preventing race conditions during screenshots or wide-span frequency sweep configurations.
+- 🏗 **Modular Design**:
+  - `instrument_drivers/`: Stores SCPI instrument drivers and the base class `baseinstrument.py`. Driver classes are exported directly from `pyinsts.instrument_drivers`.
+  - `drivers/`: Stores low-level hardware communication protocol wrappers (e.g., `serial_interface.py`, `ft2232h`).
+  - `instrument/sim/`: Stores simulation configuration files for hardware-free automated testing.
+- 🔄 **Auto-reconnection Retry**: Built-in connection retry mechanism to gracefully handle temporary hardware handshake timeouts.
+- ⏳ **Efficient Synchronization**: Provides `wait_opc()` to query `*OPC?`, blocking execution until commands complete, preventing race conditions during screenshots or sweeping.
 - 🗂 **Flexible Configurations**: Automatically loads and parses VISA resource addresses from external `config.yaml` or `config.json`.
 - 📝 **Out-of-the-box Logging**: Built-in colorized console logger (powered by `colorlog`) for easier SCPI command tracing and debugging.
 
@@ -28,7 +31,6 @@
 Ensure that you have installed the VISA backend driver (e.g., National Instruments NI-VISA or Keysight IO Libraries Suite) on your system.
 
 ```bash
-# Install via pip
 pip install pyinsts
 ```
 
@@ -36,62 +38,73 @@ pip install pyinsts
 
 ## ⚙️ Instrument Address Configuration Example
 
-This library supports managing VISA addresses in a centralized configuration file. It looks for `config.yaml` or `config.json` in the directory of the inherited instrument class by default.
+This library supports managing VISA addresses in a centralized configuration file. It looks for `config.yaml` or `config.json` by default.
 
 Create a `config.yaml` in your project folder:
 
 ```yaml
 instruments:
   N9020B: "USB0::0x2A8D::0x1D0B::MY55480186::INSTR"  # Keysight Spectrum Analyzer Address
-  FSWP: "TCPIP0::192.168.1.100::inst0::INSTR"         # R&S Signal/Phase Noise Analyzer Address
+  E5052B: "GPIB0::17::INSTR"                         # Keysight Signal Source Analyzer Address
+  FSWP-26: "TCPIP0::192.168.1.100::inst0::INSTR"     # R&S Signal Analyzer Address
 ```
 
 ---
 
 ## 🚀 Quick Start
 
-Here is a simple example of controlling a Keysight N9020B spectrum analyzer using the context manager:
+Here is a simple example of controlling a Keysight N9020B spectrum analyzer:
 
 ```python
 import logging
-from pyinsts.instrument_drivers.keysight.n9020b import N9020b
-from pyinsts.common.log_data import setup_logging
+from pyinsts.instrument_drivers import KeysightN9020B
+from pyinsts.data.log_data import setup_logging
 
-# 1. 初始化日志输出（支持控制台彩色显示）
+# 1. Initialize logging (supports colorized console output)
 setup_logging(log_level=logging.INFO)
 
-# 2. 建立仪器连接（若不传入 address，则自动从 config.yaml 读取 model='N9020B' 的配置）
-# 支持使用 context manager 自动关闭连接句柄
-config_path = 'D:\\config.yaml'
+# 2. Establish connection (automatically reads N9020B address from config.yaml if no address parameter is passed)
+config_path = 'config.yaml'
 try:
-  with N9020b(config_path=config_path, model="N9020B") as spec_analyser:
-    # 设置中心频率为 1 GHz
-    spec_analyser.set_freq_cent(1, "GHz")
+    with KeysightN9020B(config_path=config_path, model="N9020B") as spec_analyser:
+        # Set center frequency to 1 GHz
+        spec_analyser.set_freq_cent(1, "GHz")
 
-    # 将分辨率带宽 (RBW) 设置为自动
-    spec_analyser.set_rbw_auto()
+        # Enable auto Resolution Bandwidth (RBW)
+        spec_analyser.set_rbw_auto()
 
-    # 触发一次 Peak Search
-    spec_analyser.set_peak_search()
+        # Trigger Peak Search
+        spec_analyser.set_peak_search()
 
-    # 查询当前 Marker1 的功率值
-    power = spec_analyser.query_mark_y_power()
-    print(f"当前信号峰值功率为: {power} dBm")
+        # Query Marker1 Y power value
+        power = spec_analyser.query_mark_y_power()
+        print(f"Marker1 Peak Power: {power} dBm")
 
 except Exception as e:
-  print(f"仪器操作过程中发生错误: {e}")
+    print(f"Error during instrument operations: {e}")
 ```
 
 ---
 
-## 📟 Supported Instrument Models
+## 📟 Supported Instrument Models Matrix
 
-This library is actively maintained. The following instrument SCPI models are currently supported:
+All driver classes can be directly imported from `pyinsts.instrument_drivers`:
 
 | Manufacturer | Instrument Type | Driver Class | Tested Models |
 | :--- | :--- | :--- | :--- |
-| **Keysight (Agilent)** | Signal/Spectrum Analyzer | `N9020b` | N9020B, N9030B |
-| **Rohde & Schwarz** | Phase Noise / Signal Analyzer | `Fswp` | FSWP |
+| **Keysight / Agilent** | Signal/Spectrum Analyzer | `KeysightN9020B` | N9020B |
+| **Keysight / Agilent** | Signal/Spectrum Analyzer | `KeysightN9030A`, `KeysightN9030B` | N9030A, N9030B |
+| **Keysight / Agilent** | Signal Source Analyzer | `KeysightE5052B` | E5052B |
+| **Keysight / Agilent** | Analog Signal Generator | `KeysightE8257D` | E8257D |
+| **Keysight / Agilent** | Vector Network Analyzer | `KeysightN5245B` | N5245B |
+| **Keysight / Agilent** | DC Power Supply | `KeysightE36312A` | E36312A |
+| **Keysight / Agilent** | RF Power Meter | `KeysightN1914A` | N1914A |
+| **Keysight / Agilent** | Digital Multimeter | `DM34461A` | 34461A |
+| **Rohde & Schwarz** | Spectrum/Signal Analyzer | `FSV3030Sp` | FSV3030 |
+| **Rohde & Schwarz** | Signal / Phase Noise Analyzer | `FswpSp` (Spectrum), `FswpPN` (Phase Noise) | FSWP-26 / FSWP |
+| **Tonghui** | Digital Multimeter | `Th1963` | TH1963 |
+| **Others** | Source Measure Unit | `P2401` | P2401 |
+| **Others** | ThermoStream / Temp Chamber | `Ts760` | TS760 |
 
 ---
 
