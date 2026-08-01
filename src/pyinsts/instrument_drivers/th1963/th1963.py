@@ -1,7 +1,7 @@
 # 控制TH1963子程序
 from typing import Literal
 
-from src.pyinsts.instrument_drivers import BaseInstrument
+from pyinsts.instrument_drivers import BaseInstrument
 
 
 
