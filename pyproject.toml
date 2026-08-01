@@ -1,6 +1,6 @@
 [project]
 name = "pyinsts"
-version = "0.0.4"
+version = "0.0.6"
 description = "PyVISA仪器控制库，支持Keysight和Rohde&Schwarz仪器"
 authors = [
     { name = "zhangxp93", email = "937097345@qq.com" }
