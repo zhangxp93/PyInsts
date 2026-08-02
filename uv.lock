@@ -430,7 +430,7 @@ wheels = [
 
 [[package]]
 name = "pyinsts"
-version = "0.0.4"
+version = "0.0.9"
 source = { virtual = "." }
 dependencies = [
     { name = "colorlog" },

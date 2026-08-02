@@ -137,7 +137,7 @@ class KeysightE36312ASetMeas(KeysightE36312A):
     
 if __name__ == '__main__':
     # e36312a = E36312aSetMeas(config_path="E:\\PycharmProjects\\RFChipTest\\config\\instrument_drivers\\instr_config.yaml",)
-    from src.pyinsts.data import setup_logging
+    from pyinsts.data import setup_logging
     setup_logging()
     e36312a = KeysightE36312ASetMeas(address='USB0::0x2A8D::0x1102::MY61002582::INSTR', model='E36312A')
     # instrument.set_volt_curr(0,2,6,0.3)

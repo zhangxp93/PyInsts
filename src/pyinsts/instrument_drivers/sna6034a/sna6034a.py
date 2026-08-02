@@ -77,7 +77,7 @@ class Sna6034a(BaseInstrument):
 
 
 if __name__ == '__main__':
-    from src.pyinsts.data import setup_logging
+    from pyinsts.data import setup_logging
     setup_logging()
     sna6034a =Sna6034a(address='TCPIP0::172.16.30.196::inst0::INSTR')
     sna6034a.save_csv_png(f'U-disk0/3840/1')

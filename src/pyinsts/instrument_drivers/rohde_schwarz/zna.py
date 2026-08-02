@@ -78,6 +78,6 @@ class Zna43(BaseInstrument):
 
 
 if __name__ == '__main__':
-    from src.pyinsts.data import setup_logging
+    from pyinsts.data import setup_logging
     setup_logging()
     zna =Zna43(address='TCPIP0::172.16.30.208::hislip0::INSTR')

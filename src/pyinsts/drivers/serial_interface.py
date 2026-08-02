@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional, List, Tuple
 import serial
 from serial.tools import list_ports
 
-from src.pyinsts.drivers.interfaces import CommunicationInterface
+from pyinsts.drivers.interfaces import CommunicationInterface
 
 class SerialInterface(CommunicationInterface):
     """

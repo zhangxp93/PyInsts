@@ -31,7 +31,7 @@ pip install ftd2xx
 ### 基本初始化
 
 ```python
-from src.pyinsts.drivers.ft2232h.ft2232h import Ft2232h, ft2232h_search
+from pyinsts.drivers.ft2232h.ft2232h import Ft2232h, ft2232h_search
 import logging
 
 # 设置日志级别

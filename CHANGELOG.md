@@ -20,6 +20,10 @@ git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyIn
 
 # 更新日志 CHANGE LOG
 
+### [release/v0.0.9](https://github.com/zhangxp93/PyInst.git) `2026.08.02`
+- 修复所有驱动及数据模块中遗留的 `src.` 包导入路径错误（包含 `serial_interface.py`, `keysight_e36312a.py`, `sna6034a.py`, `zna.py` 等）
+- 移除冗余文件 `openhtf_reporter.py`
+
 ### [release/v0.0.8](https://github.com/zhangxp93/PyInst.git) `2026.08.02`
 - 修改readme config.yaml地址格式错误
 
