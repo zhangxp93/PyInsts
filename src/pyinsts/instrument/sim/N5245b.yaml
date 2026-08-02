@@ -1,0 +1,19 @@
+spec: "1.0"
+resources:
+  GPIB::16::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      GPIB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,N5245B,MY52000100,A.14.20"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "CALC1:DATA? FDATA"
+        r: "-10.5,-12.3,-15.1,-20.4"

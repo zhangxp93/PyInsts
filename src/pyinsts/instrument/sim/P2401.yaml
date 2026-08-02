@@ -1,0 +1,17 @@
+spec: "1.0"
+resources:
+  USB::0x1234::0x5678::P24010001::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Custom,P2401,P24010001,1.0.0"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"

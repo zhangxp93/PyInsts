@@ -1,0 +1,39 @@
+spec: "1.0"
+resources:
+  TCPIP::192.168.1.100::inst0::INSTR:
+    device: device 1
+  USB::0x0AAD::0x011F::101380::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+      TCPIP INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Rohde&Schwarz,FSWP-26,101380,1.90"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "INIT:IMM"
+      - q: "INIT:CONT OFF"
+      - q: "INIT:CONT ON"
+      - q: "CALC:MARK1:Y?"
+        r: "-25.40"
+      - q: "CALC:MARK:Y?"
+        r: "-25.40"
+      - q: "CALC1:MARK1:Y?"
+        r: "-25.40"
+      - q: "CALC1:MARK1:X?"
+        r: "1000.0"
+    properties:
+      window:
+        default: "Spectrum"
+        type: str
+        setter:
+          q: "INST {}"

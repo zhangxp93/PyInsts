@@ -1,0 +1,22 @@
+spec: "1.0"
+resources:
+  USB::0x2A8D::0x1A0A::MY53000100::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,N9030A,MY53000100,A.15.00"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "INIT:IMM"
+      - q: "INIT:CONT OFF"
+      - q: "CALC:MARK1:MAX"
+      - q: "CALC:MARK1:Y?"
+        r: "-10.20"

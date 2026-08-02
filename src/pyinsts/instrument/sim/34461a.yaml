@@ -1,0 +1,21 @@
+spec: "1.0"
+resources:
+  USB::0x2A8D::0x1301::MY53000200::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,34461A,MY53000200,A.03.02"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "READ?"
+        r: "+5.00012000E+00"
+      - q: "MEAS:VOLT:DC?"
+        r: "+5.00012000E+00"

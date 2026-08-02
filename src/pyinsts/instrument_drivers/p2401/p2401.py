@@ -29,7 +29,10 @@ class P2401(BaseInstrument):
 
     def _ren(self):
         # 设置ren
-        self.rm.visalib.gpib_control_ren(self.instrument.session,pyvisa.constants.VI_GPIB_REN_ASSERT)
+        try:
+            self.rm.visalib.gpib_control_ren(self.instrument.session, pyvisa.constants.VI_GPIB_REN_ASSERT)
+        except Exception as e:
+            logging.debug(f"P2401 GPIB REN 设置跳过: {e}")
     def set_voltage(self, voltage):
         """
         设置电压,单位V

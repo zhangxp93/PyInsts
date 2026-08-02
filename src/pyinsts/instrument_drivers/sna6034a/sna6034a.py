@@ -71,7 +71,7 @@ class Sna6034a(BaseInstrument):
         self.write(f'MMEMory:STORe:IMAGe "{filename}.png"')
         print('save_csv_png 运行完成')
     def close(self):
-        self.close()
+        super().close()
 
 
 

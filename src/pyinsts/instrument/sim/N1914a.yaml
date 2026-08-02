@@ -1,0 +1,21 @@
+spec: "1.0"
+resources:
+  USB::0x0957::0x2B17::MY51000100::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,N1914A,MY51000100,A.02.05"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "FETC1:POW:AC?"
+        r: "0.15"
+      - q: "FETC2:POW:AC?"
+        r: "-15.20"

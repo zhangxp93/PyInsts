@@ -1,0 +1,45 @@
+spec: "1.0"
+resources:
+  USB::0x2A8D::0x1A0B::MY54000100::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,N9030B,MY54000100,A.25.00"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "INIT:IMM"
+      - q: "INIT:CONT OFF"
+      - q: "INIT:CONT ON"
+      - q: "CALC:MARK1:MAX"
+      - q: "CALC:MARK1:MAX:PEAK"
+      - q: "CALC:MARK:Y?"
+        r: "-10.20"
+      - q: "CALC:MARK1:Y?"
+        r: "-10.20"
+      - q: "CALC:MARK1:X?"
+        r: "1000000000.0"
+    properties:
+      freq_cent:
+        default: 1000000000.0
+        type: float
+        getter:
+          q: "FREQ:CENT?"
+          r: "{:e}"
+        setter:
+          q: "FREQ:CENT {}"
+      freq_span:
+        default: 10000000.0
+        type: float
+        getter:
+          q: "FREQ:SPAN?"
+          r: "{:e}"
+        setter:
+          q: "FREQ:SPAN {}"

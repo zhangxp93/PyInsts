@@ -30,7 +30,7 @@ class KeysightN1914A(BaseInstrument):
         return power
 
     def close(self):
-        self.close()
+        super().close()
         pass
 
 

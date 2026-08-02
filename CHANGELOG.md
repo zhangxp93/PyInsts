@@ -22,12 +22,10 @@ git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyIn
 
 ### [release/v0.1.0](https://github.com/zhangxp93/PyInst.git) `2026.08.02`
 - `BaseInstrument` 新增 Context Manager（`with` 语句自动关闭连接）
-- 完善 `pyproject.toml` 构建配置，移除无效 workspace 成员与未使用的 `colorlog` 依赖，补充 `pyvisa-sim` 依赖
-- 统一 `write(..., check_complete=True)` 调用风格，修复 `KeysightN9030B.close()` 递归调用 bug
-- 导出 `Rsa6000`、`Rsa6000Sp`、`Sna6034a`、`Zna43`、`Ts760Set` 驱动
-- `pyinsts` 包根命名空间导出 `__version__`
-- 新增基于 `@sim` 仿真后端的 pytest 单元测试套件，通过全部 9 项测试
-- 修正 `set_opc_timeout` 默认值与 `wait_opc` 临时超时逻辑
+- 补齐全量 SCPI 仪器驱动的 `@sim` 仿真配置文件（覆盖 Keysight, R&S, 同惠, 鼎阳, 泰克等 18 个型号）
+- 增强 `BaseInstrument` 中的仿真 YAML 文件大小写不敏感自动检索与匹配逻辑
+- 修复 `KeysightN1914A`、`Zna43`、`Sna6034a` 中的 `close()` 无限递归 bug 以及 `P2401` 的 GPIB REN 仿真兼容性
+- 完善 `pyproject.toml` 构建配置，新增包含全设备仿真测试的 pytest 自动化测试套件（全量 27 项测试通过）
 - 重构项目示例目录，移除旧 `demo/` 目录并建立标准的 `examples/quick_start.py` 示范脚本
 - 同步更新中英文 README.md 中的 Quick Start 示例代码与安装说明
 

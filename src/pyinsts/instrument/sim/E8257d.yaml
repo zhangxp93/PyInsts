@@ -1,0 +1,44 @@
+spec: "1.0"
+resources:
+  USB::0x0957::0x0501::MY45470200::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,E8257D,MY45470200,C.04.12"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "FREQ:OFF?"
+        r: "0"
+    properties:
+      frequency:
+        default: 1000000000.0
+        type: float
+        getter:
+          q: "FREQ?"
+          r: "{:e}"
+        setter:
+          q: "FREQ {}"
+      power:
+        default: -10.0
+        type: float
+        getter:
+          q: "POW?"
+          r: "{:f}"
+        setter:
+          q: "POW {}"
+      output:
+        default: "OFF"
+        type: str
+        getter:
+          q: "OUTP?"
+          r: "{}"
+        setter:
+          q: "OUTP {}"

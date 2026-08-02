@@ -72,7 +72,7 @@ class Zna43(BaseInstrument):
         self.write('HCOPy:DESTination "MMEM";:HCOP')
         print('save_csv_png 运行完成')
     def close(self):
-        self.close()
+        super().close()
 
 
 

@@ -130,11 +130,21 @@ class BaseInstrument:
                     base_dir = os.path.dirname(os.path.abspath(__file__))
                     # 模拟配置目录在 src/pyinsts/instrument/sim
                     sim_dir = os.path.join(os.path.dirname(base_dir), "instrument", "sim")
-                    # 推断 yaml 名称 (e.g. FSV3030 -> Fsv3030.yaml)
-                    yaml_name = self.model[:1].upper() + self.model[1:].lower() + ".yaml"
-                    yaml_path = os.path.join(sim_dir, yaml_name)
-                    
-                    if os.path.exists(yaml_path):
+                    # 推断 yaml 名称 (例如 FSV3030 -> Fsv3030.yaml, fsv3030.yaml, FSV3030.yaml)
+                    candidates = [
+                        self.model[:1].upper() + self.model[1:].lower() + ".yaml",
+                        self.model.lower() + ".yaml",
+                        self.model.upper() + ".yaml",
+                        self.model + ".yaml",
+                    ]
+                    yaml_path = None
+                    for cand in candidates:
+                        p = os.path.join(sim_dir, cand)
+                        if os.path.exists(p):
+                            yaml_path = p
+                            break
+
+                    if yaml_path:
                         rm_backend = f"{yaml_path}@sim"
                     else:
                         rm_backend = "@sim"

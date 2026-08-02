@@ -1,0 +1,17 @@
+spec: "1.0"
+resources:
+  TCPIP::192.168.1.110::inst0::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      TCPIP INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Siglent Technologies,SNA6034A,SNA60001,1.2.0"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"

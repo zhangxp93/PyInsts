@@ -1,0 +1,19 @@
+spec: "1.0"
+resources:
+  USB::0x0483::0x7540::TH19630001::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Tonghui,TH1963,TH19630001,V1.0.2"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "FETC?"
+        r: "+3.30010000E+00"

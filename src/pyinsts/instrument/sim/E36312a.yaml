@@ -1,0 +1,40 @@
+spec: "1.0"
+resources:
+  USB::0x2A8D::0x1102::MY58000100::INSTR:
+    device: device 1
+devices:
+  device 1:
+    eom:
+      USB INSTR:
+        q: "\n"
+        r: "\n"
+    dialogues:
+      - q: "*IDN?"
+        r: "Keysight Technologies,E36312A,MY58000100,2.1.0"
+      - q: "*CLS"
+      - q: "*RST"
+      - q: "*OPC?"
+        r: "1"
+      - q: "MEAS:VOLT? (@1)"
+        r: "5.000"
+      - q: "MEAS:CURR? (@1)"
+        r: "0.120"
+      - q: "OUTP ON"
+      - q: "OUTP OFF"
+    properties:
+      volt_ch1:
+        default: 5.0
+        type: float
+        getter:
+          q: "VOLT? (@1)"
+          r: "{:f}"
+        setter:
+          q: "VOLT {} (@1)"
+      curr_ch1:
+        default: 1.0
+        type: float
+        getter:
+          q: "CURR? (@1)"
+          r: "{:f}"
+        setter:
+          q: "CURR {} (@1)"
