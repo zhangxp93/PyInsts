@@ -43,7 +43,7 @@ pip install pyinsts
 在你的项目目录下创建 `config.yaml`：
 
 ```yaml
-instruments:
+instruments_address:
   N9020B: "USB0::0x2A8D::0x1D0B::MY55480186::INSTR"  # Keysight 频谱仪地址
   E5052B: "GPIB0::17::INSTR"                         # Keysight 信号源分析仪地址
   FSWP-26: "TCPIP0::192.168.1.100::inst0::INSTR"     # R&S 信号分析仪地址

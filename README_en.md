@@ -43,7 +43,7 @@ This library supports managing VISA addresses in a centralized configuration fil
 Create a `config.yaml` in your project folder:
 
 ```yaml
-instruments:
+instruments_address:
   N9020B: "USB0::0x2A8D::0x1D0B::MY55480186::INSTR"  # Keysight Spectrum Analyzer Address
   E5052B: "GPIB0::17::INSTR"                         # Keysight Signal Source Analyzer Address
   FSWP-26: "TCPIP0::192.168.1.100::inst0::INSTR"     # R&S Signal Analyzer Address
