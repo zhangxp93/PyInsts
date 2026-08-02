@@ -1,0 +1,26 @@
+name: Star Email Notification
+
+on:
+  watch:
+    types: [started]  # 有人点 Star 时自动触发
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Email Alert
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.qq.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "🌟 恭喜！你的 PyInsts 项目收到了一个新的 Star！"
+          to: 937097345@qq.com
+          from: "PyInsts Bot <${{ secrets.MAIL_USERNAME }}>"
+          body: |
+            🎉 你的开源项目 PyInsts 获得了新的 Star！
+
+            👤 点赞用户：${{ github.actor }}
+            🔗 用户主页：https://github.com/${{ github.actor }}
+            📦 项目仓库：https://github.com/${{ github.repository }}
