@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools>=61", "versioningit"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "pyinsts"
-version = "0.0.9"
+version = "0.1.0"
 description = "PyVISA仪器控制库，支持Keysight和Rohde&Schwarz仪器"
 authors = [
     { name = "zhangxp93", email = "937097345@qq.com" }
@@ -8,7 +12,6 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "colorlog>=6.9.0",
     "ftd2xx>=1.3.8",
     "loguru>=0.7.3",
     "openpyxl>=3.1.5",
@@ -19,13 +22,29 @@ dependencies = [
     "versioningit>=3.3.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pyvisa-sim>=0.7.1",
+]
+
 [project.urls]
 Homepage = "https://github.com/zhangxp93/PyInst"
 Repository = "https://github.com/zhangxp93/PyInst"
 Changelog = "https://github.com/zhangxp93/PyInst/blob/main/CHANGELOG.md"
 
+[tool.setuptools.packages.find]
+where = ["src"]
 
-[tool.uv.workspace]
-members = [
-    "test_app",
-]
+[tool.setuptools.package-data]
+pyinsts = ["instrument/sim/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.versioningit]
+default-version = "0.1.0"
+
+[tool.versioningit.write]
+file = "src/pyinsts/_version.py"

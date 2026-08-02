@@ -2,7 +2,8 @@ import logging
 import time
 
 import pyvisa
-from typing import Callable, Optional
+from types import TracebackType
+from typing import Callable, Optional, Type
 import os
 import inspect
 from functools import wraps
@@ -93,9 +94,21 @@ class BaseInstrument:
 
         return address
 
+    def __enter__(self) -> "BaseInstrument":
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> bool:
+        self.close()
+        return False
+
     @handle_instrument_error
-    def _connect_instrument(self) -> None:
-        """建立仪器连接,返回仪器标识"""
+    def _connect_instrument(self) -> Optional[str]:
+        """建立仪器连接，返回仪器标识"""
         max_retries = 3  # 最大重试次数
 
         retry_count = 0
@@ -207,7 +220,7 @@ class BaseInstrument:
             raise
     
     @handle_instrument_error
-    def set_opc_timeout(self, timeout: float=0.1, poll_interval: float = None):
+    def set_opc_timeout(self, timeout: float = 100, poll_interval: float = None):
         """临时设置OPC超时时间
         
         Args:
@@ -223,10 +236,11 @@ class BaseInstrument:
     def wait_opc(self, timeout=None, opc_poll_interval=None):
         """等待OPC完成
         Args:
-            timeout: 超时时间(秒)，默认使用self.timeout
-            opc_poll_interval: 轮询间隔(秒)，默认使用self.poll_interval
+            timeout: 超时时间(秒)，默认使用 self.opc_timeout
+            opc_poll_interval: 轮询间隔(秒)，默认使用 self.opc_poll_interval
         """
-        self.opc_timeout = timeout or self.opc_timeout
+        effective_timeout = self.opc_timeout if timeout is None else timeout
+        effective_poll = self.opc_poll_interval if opc_poll_interval is None else opc_poll_interval
         try:
             start_time = time.time()
             logging.info(f"开始等待opc?")
@@ -242,10 +256,10 @@ class BaseInstrument:
                     # break  # 通信异常时终止
 
                 elapsed = time.time() - start_time
-                if elapsed >= self.opc_timeout:
+                if elapsed >= effective_timeout:
                     logging.warning(f"运行超时（已耗时：{elapsed:.1f}秒）")
                     break
-                time.sleep(opc_poll_interval or self.opc_poll_interval)
+                time.sleep(effective_poll)
             end_time = time.time()
             total_time = end_time - start_time
             logging.info(f"总运行时间: {total_time:.2f}秒")
@@ -257,6 +271,11 @@ class BaseInstrument:
     @handle_instrument_error
     def close(self) -> None:
         """关闭仪器连接"""
-        self.instrument.close()
+        if hasattr(self, "instrument") and self.instrument:
+            self.instrument.close()
+            self.instrument = None
+        if hasattr(self, "rm") and self.rm:
+            self.rm.close()
+            self.rm = None
         logging.info(f"{self.model} 连接已关闭")
 

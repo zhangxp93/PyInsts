@@ -13,7 +13,7 @@ def _get_version() -> str:
         pass
 
     # 降级方案：若读取失败（例如未打 tag 或不在 git 环境中），直接返回备用版本
-    return "0.0.9"
+    return "0.1.0"
 
 # 构建发布包时，这行 __version__ 会被 versioningit 自动改写为真正的发布版本（如 "0.0.4"）
-__version__ = "0.0.9"
+__version__ = "0.1.0"

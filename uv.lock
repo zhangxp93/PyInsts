@@ -24,24 +24,24 @@ wheels = [
 ]
 
 [[package]]
-name = "colorlog"
-version = "6.10.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a2/61/f083b5ac52e505dfc1c624eafbf8c7589a0d7f32daa398d2e7590efa5fda/colorlog-6.10.1.tar.gz", hash = "sha256:eb4ae5cb65fe7fec7773c2306061a8e63e02efc2c72eba9d27b0fa23c94f1321", size = 17162, upload-time = "2025-10-16T16:14:11.978Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/c1/e419ef3723a074172b68aaa89c9f3de486ed4c2399e2dbd8113a4fdcaf9e/colorlog-6.10.1-py3-none-any.whl", hash = "sha256:2d7e8348291948af66122cff006c9f8da6255d224e7cf8e37d8de2df3bad8c9c", size = 11743, upload-time = "2025-10-16T16:14:10.512Z" },
-]
-
-[[package]]
 name = "et-xmlfile"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d3/38/af70d7ab1ae9d4da450eeec1fa3918940a5fafb9055e934af8d6eb0c2313/et_xmlfile-2.0.0.tar.gz", hash = "sha256:dab3f4764309081ce75662649be815c4c9081e88f0837825f90fd28317d4da54", size = 17234, upload-time = "2024-10-25T17:25:40.039Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c1/8b/5fe2cc11fee489817272089c4203e679c63b570a5aaeb18d852ae3cbba6a/et_xmlfile-2.0.0-py3-none-any.whl", hash = "sha256:7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa", size = 18059, upload-time = "2024-10-25T17:25:39.051Z" },
+]
+
+[[package]]
+name = "exceptiongroup"
+version = "1.3.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8a/0e/97c33bf5009bdbac74fd2beace167cab3f978feb69cc36f1ef79360d6c4e/exceptiongroup-1.3.1-py3-none-any.whl", hash = "sha256:a7a39a3bd276781e98394987d3a5701d0c4edffb633bb7a5144577f82c773598", size = 16740, upload-time = "2025-11-21T23:01:53.443Z" },
 ]
 
 [[package]]
@@ -54,6 +54,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6f/81/d6acdc629eeba37be56e736378095b9f8c1daec990739a277b292c01883e/ftd2xx-1.3.8.tar.gz", hash = "sha256:9de74ba300cfb1f3516af98e8097533d5d76692adfcc424694cc261b1b03e5e5", size = 42123, upload-time = "2024-06-25T17:16:04.185Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a9/f0/03c678b14acc9428b4785773d24c27bf7a0f9c05070f7bd1e4ae90fa19d8/ftd2xx-1.3.8-py3-none-any.whl", hash = "sha256:380549324f484c6bbed9f583616742b0ad339ab758571ac29557d80a2193c23b", size = 41024, upload-time = "2024-06-25T17:16:02.963Z" },
+]
+
+[[package]]
+name = "iniconfig"
+version = "2.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/72/34/14ca021ce8e5dfedc35312d08ba8bf51fdd999c576889fc2c24cb97f4f10/iniconfig-2.3.0.tar.gz", hash = "sha256:c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730", size = 20503, upload-time = "2025-10-18T21:55:43.219Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl", hash = "sha256:f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12", size = 7484, upload-time = "2025-10-18T21:55:41.639Z" },
 ]
 
 [[package]]
@@ -429,11 +438,28 @@ wheels = [
 ]
 
 [[package]]
+name = "pluggy"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
+]
+
+[[package]]
+name = "pygments"
+version = "2.20.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c3/b2/bc9c9196916376152d655522fdcebac55e66de6603a76a02bca1b6414f6c/pygments-2.20.0.tar.gz", hash = "sha256:6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f", size = 4955991, upload-time = "2026-03-29T13:29:33.898Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f4/7e/a72dd26f3b0f4f2bf1dd8923c85f7ceb43172af56d63c7383eb62b332364/pygments-2.20.0-py3-none-any.whl", hash = "sha256:81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176", size = 1231151, upload-time = "2026-03-29T13:29:30.038Z" },
+]
+
+[[package]]
 name = "pyinsts"
-version = "0.0.9"
-source = { virtual = "." }
+version = "0.1.0"
+source = { editable = "." }
 dependencies = [
-    { name = "colorlog" },
     { name = "ftd2xx" },
     { name = "loguru" },
     { name = "openpyxl" },
@@ -445,18 +471,26 @@ dependencies = [
     { name = "versioningit" },
 ]
 
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "pyvisa-sim" },
+]
+
 [package.metadata]
 requires-dist = [
-    { name = "colorlog", specifier = ">=6.9.0" },
     { name = "ftd2xx", specifier = ">=1.3.8" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "openpyxl", specifier = ">=3.1.5" },
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "pyserial", specifier = ">=3.5" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pyvisa", specifier = ">=1.14.1" },
+    { name = "pyvisa-sim", marker = "extra == 'dev'", specifier = ">=0.7.1" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "versioningit", specifier = ">=3.3.0" },
 ]
+provides-extras = ["dev"]
 
 [[package]]
 name = "pyserial"
@@ -465,6 +499,24 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/1e/7d/ae3f0a63f41e4d2f6cb66a5b57197850f919f59e558159a4dd3a818f5082/pyserial-3.5.tar.gz", hash = "sha256:3c77e014170dfffbd816e6ffc205e9842efb10be9f58ec16d3e8675b4925cddb", size = 159125, upload-time = "2020-11-23T03:59:15.045Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/07/bc/587a445451b253b285629263eb51c2d8e9bcea4fc97826266d186f96f558/pyserial-3.5-py2.py3-none-any.whl", hash = "sha256:c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0", size = 90585, upload-time = "2020-11-23T03:59:13.41Z" },
+]
+
+[[package]]
+name = "pytest"
+version = "9.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
+    { name = "iniconfig" },
+    { name = "packaging" },
+    { name = "pluggy" },
+    { name = "pygments" },
+    { name = "tomli", marker = "python_full_version < '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e4/47/b9efed96c114afcfa3c9d3fe98a76a1d14c74a9e266d397cf6eb64be5e01/pytest-9.1.1.tar.gz", hash = "sha256:1088fbde8f2b49d95a549a195707afa7a76a3ce9bcadc26b6d71f0ffda5fe313", size = 1636369, upload-time = "2026-06-19T10:58:32.857Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/24/25/1de2678b631f5a49215c6c96fff41ba892b0a34df68d6d80292b1b48aa7f/pytest-9.1.1-py3-none-any.whl", hash = "sha256:37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c", size = 386536, upload-time = "2026-06-19T10:58:31.347Z" },
 ]
 
 [[package]]
@@ -498,6 +550,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/13/72/a50adff945e66f2161a44b243970f809de19152a2e7da0473ae8ff96d642/pyvisa-1.16.2.tar.gz", hash = "sha256:75beb93eeafe20a50be5726fa4e3a645948c93d86819f9c1f8c542efa4085a38", size = 238729, upload-time = "2026-02-27T12:14:08.54Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e4/a9/776da4f397003cca093659524c3526590522f81b642936838428c11274e6/pyvisa-1.16.2-py3-none-any.whl", hash = "sha256:54f034adafd3e8d1858d57cdafec64e920444f4b84b31c9fd17487fbad0a197a", size = 181413, upload-time = "2026-02-27T12:14:07.301Z" },
+]
+
+[[package]]
+name = "pyvisa-sim"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyvisa" },
+    { name = "pyyaml" },
+    { name = "stringparser" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/55/50/151ac5d9e067be9a3af09c2f188eebb7bd6416e32d8351c8f0012548693f/pyvisa_sim-0.7.1.tar.gz", hash = "sha256:11b10658e2152708eeada0c86627d894c4d11484312f02d3cf385196b4bc870f", size = 52679, upload-time = "2025-09-04T20:42:28.686Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5e/d4/525c79a339b19d4509e78402bad301d77ee6cae0d33dab2668fb1c624ea4/pyvisa_sim-0.7.1-py3-none-any.whl", hash = "sha256:0468326ea76977ba0da4d25c334a8d82ceb22d9b068e2c6894a8075ce7168322", size = 35564, upload-time = "2025-09-04T20:42:27.17Z" },
 ]
 
 [[package]]
@@ -596,6 +663,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
+]
+
+[[package]]
+name = "stringparser"
+version = "0.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ac/c0/57c5e808f68ed9a822d83413a3516f06a7751dc35e7039252e25994bf654/stringparser-0.7.tar.gz", hash = "sha256:bf37aac0166fc8f5705b450cc332f0d323e2d8b8191017bbfebe1f489f18f64d", size = 10211, upload-time = "2023-11-16T00:08:35.958Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/33/8d/1ce822279ed69e5e5e83826b9f61d37ea146ffaf54b615d34ca363eb0aaa/stringparser-0.7-py3-none-any.whl", hash = "sha256:44678ca6067a5c0cb4c45da38448e1971e2b6fb136b82bfb6a798bdbda7dd71f", size = 7866, upload-time = "2023-11-16T00:08:34.488Z" },
 ]
 
 [[package]]

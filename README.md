@@ -22,7 +22,7 @@
 - 🔄 **自动连接重试**：内置连接重试机制，自动规避短暂的硬件握手超时。
 - ⏳ **高效同步阻塞**：提供 `wait_opc()` 机制，相比硬编码 `time.sleep` 更安全，避免截图或扫频时的竞态问题。
 - 🗂 **灵活配置加载**：支持通过外部 `config.yaml` 或 `config.json` 自动解析和分配仪器的物理地址（如 VISA 资源地址）。
-- 📝 **开箱即用日志**：内置彩色日志流（依赖 `colorlog`），方便调试 SCPI 指令交互。
+- 📝 **开箱即用日志**：内置彩色日志流（依赖 `loguru`），方便调试 SCPI 指令交互，并自动拦截 PyVISA 底层日志。
 
 ---
 
@@ -102,9 +102,23 @@ except Exception as e:
 | **Keysight / Agilent** | 数字万用表 | `DM34461A` | 34461A |
 | **Rohde & Schwarz** | 频谱/信号分析仪 | `FSV3030Sp` | FSV3030 |
 | **Rohde & Schwarz** | 信号/相噪分析仪 | `FswpSp` (频谱模式), `FswpPN` (相噪模式) | FSWP-26 / FSWP |
+| **Rohde & Schwarz** | 矢量网络分析仪 | `Zna43` | ZNA43 |
+| **Rohde & Schwarz** | 实时频谱分析仪 | `Rsa6000Sp` | RSA6000 |
+| **同惠 (Tonghui)** | 矢量网络分析仪 | `Sna6034a` | SNA6034A |
 | **同惠 (Tonghui)** | 数字万用表 | `Th1963` | TH1963 |
 | **其他设备 (Others)** | 源表 / 测量单元 | `P2401` | P2401 |
-| **其他设备 (Others)** | 温控箱单元 | `Ts760` | TS760 |
+| **其他设备 (Others)** | 温控箱单元 | `Ts760`, `Ts760Set` | TS760 |
+
+---
+
+## 🧪 运行测试
+
+项目内置基于 PyVISA `@sim` 仿真后端的单元测试，无需实体仪器即可验证连接与 SCPI 交互：
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
 
 ---
 

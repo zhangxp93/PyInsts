@@ -38,7 +38,7 @@ class KeysightN9030B(BaseInstrument):
         :return:
         """
 
-        self.write(f'FREQ:CENT {freq}{unit}',True)
+        self.write(f'FREQ:CENT {freq}{unit}', check_complete=True)
         logging.info(f'设置中心频率: {freq}{unit}')
 
 
@@ -323,15 +323,12 @@ class KeysightN9030B(BaseInstrument):
         自校准all
         :return:
         """
-        self.write(f"*CAL?",True)
-        logging.info(f'自校准all 成功')
+        self.write("*CAL?", check_complete=True)
+        logging.info('自校准all 成功')
 
     def close(self):
-        """
-        关闭仪器端口
-        :return:
-        """
-        self.close()
+        """关闭仪器端口"""
+        super().close()
         logging.info(f'关闭频谱仪{self.model}端口')
 
 

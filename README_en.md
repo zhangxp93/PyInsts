@@ -22,7 +22,7 @@
 - 🔄 **Auto-reconnection Retry**: Built-in connection retry mechanism to gracefully handle temporary hardware handshake timeouts.
 - ⏳ **Efficient Synchronization**: Provides `wait_opc()` to query `*OPC?`, blocking execution until commands complete, preventing race conditions during screenshots or sweeping.
 - 🗂 **Flexible Configurations**: Automatically loads and parses VISA resource addresses from external `config.yaml` or `config.json`.
-- 📝 **Out-of-the-box Logging**: Built-in colorized console logger (powered by `colorlog`) for easier SCPI command tracing and debugging.
+- 📝 **Out-of-the-box Logging**: Built-in colorized console logger (powered by `loguru`) for easier SCPI command tracing and debugging, with automatic PyVISA log interception.
 
 ---
 
@@ -102,9 +102,23 @@ All driver classes can be directly imported from `pyinsts.instrument_drivers`:
 | **Keysight / Agilent** | Digital Multimeter | `DM34461A` | 34461A |
 | **Rohde & Schwarz** | Spectrum/Signal Analyzer | `FSV3030Sp` | FSV3030 |
 | **Rohde & Schwarz** | Signal / Phase Noise Analyzer | `FswpSp` (Spectrum), `FswpPN` (Phase Noise) | FSWP-26 / FSWP |
+| **Rohde & Schwarz** | Vector Network Analyzer | `Zna43` | ZNA43 |
+| **Rohde & Schwarz** | Real-time Spectrum Analyzer | `Rsa6000Sp` | RSA6000 |
+| **Tonghui** | Vector Network Analyzer | `Sna6034a` | SNA6034A |
 | **Tonghui** | Digital Multimeter | `Th1963` | TH1963 |
 | **Others** | Source Measure Unit | `P2401` | P2401 |
-| **Others** | ThermoStream / Temp Chamber | `Ts760` | TS760 |
+| **Others** | ThermoStream / Temp Chamber | `Ts760`, `Ts760Set` | TS760 |
+
+---
+
+## 🧪 Running Tests
+
+The project includes unit tests powered by the PyVISA `@sim` backend, so no physical instruments are required:
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
 
 ---
 
