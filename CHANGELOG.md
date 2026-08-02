@@ -22,12 +22,14 @@ git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyIn
 
 ### [release/v0.1.0](https://github.com/zhangxp93/PyInst.git) `2026.08.02`
 - `BaseInstrument` 新增 Context Manager（`with` 语句自动关闭连接）
-- 完善 `pyproject.toml` 构建配置，移除无效 workspace 成员与未使用的 `colorlog` 依赖
+- 完善 `pyproject.toml` 构建配置，移除无效 workspace 成员与未使用的 `colorlog` 依赖，补充 `pyvisa-sim` 依赖
 - 统一 `write(..., check_complete=True)` 调用风格，修复 `KeysightN9030B.close()` 递归调用 bug
 - 导出 `Rsa6000`、`Rsa6000Sp`、`Sna6034a`、`Zna43`、`Ts760Set` 驱动
 - `pyinsts` 包根命名空间导出 `__version__`
-- 新增基于 `@sim` 仿真后端的 pytest 单元测试
+- 新增基于 `@sim` 仿真后端的 pytest 单元测试套件，通过全部 9 项测试
 - 修正 `set_opc_timeout` 默认值与 `wait_opc` 临时超时逻辑
+- 重构项目示例目录，移除旧 `demo/` 目录并建立标准的 `examples/quick_start.py` 示范脚本
+- 同步更新中英文 README.md 中的 Quick Start 示例代码与安装说明
 
 ### [release/v0.0.9](https://github.com/zhangxp93/PyInst.git) `2026.08.02`
 - 修复所有驱动及数据模块中遗留的 `src.` 包导入路径错误（包含 `serial_interface.py`, `keysight_e36312a.py`, `sna6034a.py`, `zna.py` 等）

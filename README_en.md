@@ -57,28 +57,34 @@ Here is a simple example of controlling a Keysight N9020B spectrum analyzer:
 
 ```python
 import logging
-from pyinsts.instrument_drivers import KeysightN9020B
-from pyinsts.data.log_data import setup_logging
+from pyinsts.data import setup_logging
+from pyinsts.instrument_drivers import FSV3030Sp
 
-# 1. Initialize logging (supports colorized console output)
+# 1. Initialize logging (supports colorized console output and Loguru logging)
 setup_logging(log_level=logging.INFO)
 
-# 2. Establish connection (automatically reads N9020B address from config.yaml if no address parameter is passed)
-config_path = 'config.yaml'
+# 2. Establish connection (supports physical devices or append ;@sim for simulation)
+sim_address = "USB::0x0AAD::0x0119::100001::INSTR;@sim"
+
 try:
-    with KeysightN9020B(config_path=config_path, model="N9020B") as spec_analyser:
-        # Set center frequency to 1 GHz
-        spec_analyser.set_freq_cent(1, "GHz")
+    with FSV3030Sp(address=sim_address, model="FSV3030") as spec:
+        print(f"Connected successfully, IDN: {spec.idn}")
 
-        # Enable auto Resolution Bandwidth (RBW)
-        spec_analyser.set_rbw_auto()
+        # 1. Set center frequency to 1.0 GHz
+        spec.set_freq_center(1.0, "GHz")
 
-        # Trigger Peak Search
-        spec_analyser.set_peak_search()
+        # 2. Set frequency span to 10 MHz
+        spec.set_freq_span(10.0, "MHz")
 
-        # Query Marker1 Y power value
-        power = spec_analyser.query_mark_y_power()
-        print(f"Marker1 Peak Power: {power} dBm")
+        # 3. Enable auto RBW
+        spec.set_rbw_auto()
+
+        # 4. Trigger Peak Search
+        spec.set_peak_search()
+
+        # 5. Wait for OPC completion
+        spec.wait_opc()
+        print("Instrument operations completed successfully!")
 
 except Exception as e:
     print(f"Error during instrument operations: {e}")

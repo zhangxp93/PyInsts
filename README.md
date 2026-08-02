@@ -57,28 +57,34 @@ instruments_address:
 
 ```python
 import logging
-from pyinsts.instrument_drivers import KeysightN9020B
-from pyinsts.data.log_data import setup_logging
+from pyinsts.data import setup_logging
+from pyinsts.instrument_drivers import FSV3030Sp
 
-# 1. 初始化日志输出（支持控制台彩色显示）
+# 1. 初始化日志输出（支持控制台彩色显示与 Loguru 记录）
 setup_logging(log_level=logging.INFO)
 
-# 2. 建立仪器连接（若不传入 address，则自动从 config.yaml 读取 model='N9020B' 的配置）
-config_path = 'config.yaml'
+# 2. 建立仪器连接（支持连接实体硬件，也可追加 ;@sim 使用内置仿真测试）
+sim_address = "USB::0x0AAD::0x0119::100001::INSTR;@sim"
+
 try:
-    with KeysightN9020B(config_path=config_path, model="N9020B") as spec_analyser:
-        # 设置中心频率为 1 GHz
-        spec_analyser.set_freq_cent(1, "GHz")
+    with FSV3030Sp(address=sim_address, model="FSV3030") as spec:
+        print(f"成功连接仪器，IDN: {spec.idn}")
 
-        # 将分辨率带宽 (RBW) 设置为自动
-        spec_analyser.set_rbw_auto()
+        # 1. 设置中心频率为 1.0 GHz
+        spec.set_freq_center(1.0, "GHz")
 
-        # 触发 Peak Search
-        spec_analyser.set_peak_search()
+        # 2. 设置频跨 (Span) 为 10 MHz
+        spec.set_freq_span(10.0, "MHz")
 
-        # 查询当前 Marker1 的功率值
-        power = spec_analyser.query_mark_y_power()
-        print(f"当前信号峰值功率为: {power} dBm")
+        # 3. 设置 RBW 为自动模式
+        spec.set_rbw_auto()
+
+        # 4. 触发 Peak Search 峰值查找
+        spec.set_peak_search()
+
+        # 5. 等待命令处理完成
+        spec.wait_opc()
+        print("仪器控制流程成功执行完毕！")
 
 except Exception as e:
     print(f"仪器操作过程中发生错误: {e}")
