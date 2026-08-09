@@ -1,3 +1,5 @@
+
+
 [**简体中文**](https://github.com/zhangxp93/PyInst/blob/main/README.md) | [**English**](https://github.com/zhangxp93/PyInst/blob/main/README_en.md)
 
 <div align="center">
@@ -27,6 +29,8 @@
 ---
 
 ## 📦 安装方法
+
+> 💡 提示：本项目基于 Python 3.10+ 开发，请确保您的运行环境满足版本要求。
 
 确保你的系统已配置 VISA 后台驱动（如 NI-VISA 或 Keysight IO Libraries Suite）。
 
