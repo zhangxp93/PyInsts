@@ -195,6 +195,33 @@ class FswpPN(FSV3030Base):
         self.write(f'SOUR:GEN:STAT {switch}',check_complete=True)
         logging.info(f'设置源功率开关: {switch}')
 
+    def set_pn_rwb(self, rbw:int) -> None:
+        """
+        设置相位噪声rbw
+        :return:
+        """
+        self.write(f'SENS:LIST:BWID:RES:RAT {rbw}')
+        logging.info(f'设置相位噪声rbw: {rbw}%')
+
+    def set_pn_att(self, att:int) -> None:
+        """
+        设置相位噪声att
+        :return:
+        """
+        self.write(f'INP:ATT {att}')
+        logging.info(f'设置相位噪声att: {att}%')
+
+    def set_pn_mode(self,mode:Literal['Phase Noise', 'Additive Noise']) -> None:
+        """
+        设置相位噪声模式
+        :return:
+        """
+        if mode == 'Phase Noise':
+            self.write(f'CONF:PNO:MEAS PNO')
+        elif mode == 'Additive Noise':
+            self.write(f'CONF:PNO:MEAS RES')
+        logging.info(f'设置相位噪声模式: {mode}')
+
     def query_singal_level(self):
         """
         读取singal_level
@@ -229,7 +256,7 @@ class FswpPN(FSV3030Base):
         return get_value
 
 
-class FswpVcoChar(FSV3030Base):
+class FswpVcoChar(FswpPN):
     def __init__(self, address: str = None, config_path="config.yaml", model: str = "FSWP-26"):
         super().__init__(address=address, config_path=config_path, model=model)
 

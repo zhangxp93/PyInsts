@@ -390,15 +390,27 @@ class Ft2232h:
                           cs_high_pin: Optional[int] = None,
                           start_cs: bool = False,
                           stop_cs: bool = True,
-                          write_data: list = None,
-                          frame_size: int = 4) -> None:
-        """SPI批量单向发送数据（不接收数据），每个帧有独立CS周期"""
+                          write_data=None,
+                          frame_size: int = 4,
+                          delay_cs:int =1) -> None:
+        """
+        SPI批量单向发送数据（不接收数据），每个帧有独立CS周期
+        :param cs_high_pin:
+        :param start_cs:
+        :param stop_cs:
+        :param write_data:
+        :param frame_size: 设置每帧几组数据，0xAA为一组
+        :param delay_cs:  设置cs高延迟多少，默认为1的时候不延迟
+        :return:
+        """
+        if write_data is None:
+            write_data = []
         if not write_data or len(write_data) % frame_size != 0:
             logging.warning("SPI批量发送数据为空或长度不对齐，请检查！")
             return
 
         try:
-            cs_high = [0x80, 0x08, 0x0B]
+            cs_high = [0x80, 0x08, 0x0B]*delay_cs
             cs_low = [0x80, 0x00, 0x0B]
 
             combined_frame = []

@@ -9,7 +9,7 @@
 方法2：使用以下命令手动clone指定分支：
 
 ```
-git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyInst.git
+git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyInsts.git
 ```
 
 方法3：在本仓库手动下载指定分支的zip源码包。
@@ -19,6 +19,23 @@ git clone --single-branch --branch [分支名] https://github.com/zhangxp93/PyIn
 `main`、`dev` 等分支，可能含有开发中的不稳定的新功能。如果用于研究学习或二次开发，建议选择 `release` 开头的分支。
 
 # 更新日志 CHANGE LOG
+
+### [release/v0.1.1](https://github.com/zhangxp93/PyInst.git) `2026.09.13`
+- **版本号升级**：项目版本从 `0.1.0` 升级至 `0.1.1`（同步更新 `pyproject.toml`、`src/pyinsts/_version.py` 与 `uv.lock`）
+- **`BaseInstrument` 通信基类重构与增强**：
+  - 日志系统全面接入 `loguru.logger`，提升日志追踪与格式化体验
+  - 连接流程新增 `Device Clear`（`instrument.clear()`）调用，在 `*CLS` 前复位 I/O 管道，有效防止异常断开后的通信残留
+  - 新增 `_truncate_for_log` 方法，对超长查询结果进行智能截断，避免大缓冲区刷屏
+  - 调整默认超时配置：`write` 与 `query` 默认超时调整为 200 秒，`opc_timeout` 默认超时增加至 200 秒
+- **`Ft2232h` 硬件接口驱动增强**：
+  - `spi_write_batch_single` 接口新增 `delay_cs` 参数，支持动态配置片选 CS 高电平延迟周期
+- **`KeysightE8257D` 信号源驱动优化**：
+  - 切换至 `loguru.logger` 记录频率设置日志，移除固定的 `time.sleep(0.001)` 延迟
+- **`FSWP` 相噪分析仪驱动扩展**：
+  - `FswpPN` 类新增 `set_pn_rwb`（RBW 分辨率带宽设置）、`set_pn_att`（衰减器设置）以及 `set_pn_mode`（相噪模式切换：Phase Noise / Additive Noise）
+  - 将 `FswpVcoChar` 改为继承 `FswpPN`，完善特性复用
+- **`Ts760Set` 驱动规范化**：
+  - 优化 `server_ip` 类型注解为 `str | None`
 
 ### [release/v0.1.0](https://github.com/zhangxp93/PyInst.git) `2026.08.02`
 - `BaseInstrument` 新增 Context Manager（`with` 语句自动关闭连接）

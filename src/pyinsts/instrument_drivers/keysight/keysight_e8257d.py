@@ -1,7 +1,6 @@
 # E8257D信号源，频率250KHz~40Ghz
 from typing import Literal
-
-import pyvisa
+from loguru import logger
 import time
 
 from pyinsts.instrument_drivers import BaseInstrument
@@ -20,7 +19,7 @@ class KeysightE8257D(BaseInstrument):
         :return:
         """
         self.write(f'FREQ {freq}{unit}')
-        time.sleep(0.001)
+        logger.info(f'set freq to {freq}{unit}')
 
 
     def query_freq(self):

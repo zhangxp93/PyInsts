@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 import time
 
 import pyvisa
@@ -20,7 +20,7 @@ def handle_instrument_error(func: Callable) -> Callable:
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            logging.error(f"{args[0].model} {func.__name__}失败: {e}")
+            logger.error(f"{args[0].model} {func.__name__}失败: {e}")
             raise
 
     return wrapper
@@ -44,7 +44,7 @@ class BaseInstrument:
         
         # 设置默认超时参数
 
-        self.opc_timeout = 100  # 默认OPC超时时间100秒
+        self.opc_timeout = 200  # 默认OPC超时时间200秒
 
 
         self.opc_poll_interval = 0.01  # 默认OPC轮询间隔0.01秒
@@ -155,22 +155,31 @@ class BaseInstrument:
                     self.rm = pyvisa.ResourceManager()
                     
                 self.instrument = self.rm.open_resource(actual_address)
+                # ========== 🔧 新增：Device Clear ==========
+                # 必须在 *CLS 之前执行，用于恢复因异常中断导致的 I/O 管道损坏
+                try:
+                    self.instrument.clear()
+                    logger.debug('已执行 Device Clear (I/O 缓冲区重置)')
+                except Exception as clear_err:
+                    logger.warning(f'Device Clear 失败: {clear_err}')
+                    # clear 失败不阻断，继续尝试后续步骤
+                # ==========================================
                 
                 if rm_backend:
                     self.instrument.write_termination = '\n'
                     self.instrument.read_termination = '\n'
 
                 self.instrument.write('*CLS')
-                logging.info('清除仪器寄存器信息')
+                logger.info('清除仪器寄存器信息')
 
                 # 验证连接
                 idn = self.instrument.query("*IDN?")
-                logging.info(f'仪器标识:{idn}, 成功连接{self.model}')
+                logger.info(f'仪器标识:{idn}, 成功连接{self.model}')
                 return idn
             except(pyvisa.VisaIOError, pyvisa.VisaTypeError, TimeoutError):
                 retry_count += 1
                 if retry_count < max_retries:
-                    logging.info(f"等待1秒后重试...")
+                    logger.info(f"等待1秒后重试...")
                     time.sleep(1)
                     # 确保之前的连接被关闭
                     if hasattr(self, 'instrument'):
@@ -178,7 +187,7 @@ class BaseInstrument:
                     if hasattr(self, 'rm'):
                         self.rm.close()
                 else:
-                    logging.error(f"连接失败次数超过最大重试次数({max_retries})")
+                    logger.error(f"连接失败次数超过最大重试次数({max_retries})")
                     raise
 
         return None
@@ -196,12 +205,18 @@ class BaseInstrument:
         example:
             self.write(f'SENSE1:FREQ:CENT 1GHz')
         """
-        self.instrument.timeout = 100000
+        self.instrument.timeout = 200000    #200s
         self.instrument.write(command)
         if check_complete:
             self.wait_opc()
-        logging.debug(f"{self.model} 写入: {command}")
+        logger.info(f"{self.model} 写入: {command}")
 
+    def _truncate_for_log(self, result: str, max_len: int = 100) -> str:
+        """将长字符串截断用于日志显示"""
+        result = result.strip()
+        if len(result) <= max_len:
+            return result
+        return f"{result[:max_len]}... [共{len(result)}字符, 已截断]"
     @handle_instrument_error
     def query(self, command: str,
               check_complete: bool = False) -> str:
@@ -218,19 +233,21 @@ class BaseInstrument:
             result = self.query("*IDN?")
             print(result)
         """
-        self.instrument.timeout = 20000
+        self.instrument.timeout = 200000    #200s
         try:
             result = self.instrument.query(command)
             if check_complete:
                 self.wait_opc()
-            logging.info(f"{self.model} 查询: {command}, 结果: {result}")
+
+            # ✅ 日志中使用截断后的结果
+            logger.info(f"{self.model} 查询: {command}, 结果: {self._truncate_for_log(result)}")
             return result
         except VisaIOError as e:
-            logging.error(f"{self.model} 查询失败: {e}")
+            logger.error(f"{self.model} 查询失败: {e}")
             raise
     
     @handle_instrument_error
-    def set_opc_timeout(self, timeout: float = 100, poll_interval: float = None):
+    def set_opc_timeout(self, timeout: float = 200, poll_interval: float = None):
         """临时设置OPC超时时间
         
         Args:
@@ -240,7 +257,7 @@ class BaseInstrument:
         self.opc_timeout = timeout
         if poll_interval is not None:
             self.opc_poll_interval = poll_interval
-        logging.info(f"{self.model} 设置超时时间: {timeout}秒, 轮询间隔: {poll_interval or self.opc_poll_interval}秒")
+        logger.info(f"{self.model} 设置超时时间: {timeout}秒, 轮询间隔: {poll_interval or self.opc_poll_interval}秒")
 
     @handle_instrument_error
     def wait_opc(self, timeout=None, opc_poll_interval=None):
@@ -253,29 +270,29 @@ class BaseInstrument:
         effective_poll = self.opc_poll_interval if opc_poll_interval is None else opc_poll_interval
         try:
             start_time = time.time()
-            logging.info(f"开始等待opc?")
+            logger.info(f"开始等待opc?")
 
             while True:
                 try:
                     opc = self.instrument.query("*OPC?")
                     if opc.strip() == '1':
-                        logging.info("opc运行完成")
+                        logger.info("opc运行完成")
                         break
                 except VisaIOError as e:
-                    logging.warning(f"OPC查询失败: {str(e)}")
+                    logger.warning(f"OPC查询失败: {str(e)}")
                     # break  # 通信异常时终止
 
                 elapsed = time.time() - start_time
                 if elapsed >= effective_timeout:
-                    logging.warning(f"运行超时（已耗时：{elapsed:.1f}秒）")
+                    logger.warning(f"运行超时（已耗时：{elapsed:.1f}秒）")
                     break
                 time.sleep(effective_poll)
             end_time = time.time()
             total_time = end_time - start_time
-            logging.info(f"总运行时间: {total_time:.2f}秒")
+            logger.info(f"总运行时间: {total_time:.2f}秒")
             return total_time  # 返回时间供外部使用
         except Exception as e:
-            logging.error(f"发生错误: {str(e)}")
+            logger.error(f"发生错误: {str(e)}")
             return str(e)
 
     @handle_instrument_error
@@ -287,5 +304,5 @@ class BaseInstrument:
         if hasattr(self, "rm") and self.rm:
             self.rm.close()
             self.rm = None
-        logging.info(f"{self.model} 连接已关闭")
+        logger.info(f"{self.model} 连接已关闭")
 

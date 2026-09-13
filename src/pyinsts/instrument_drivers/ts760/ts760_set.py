@@ -6,8 +6,7 @@ from pyinsts.instrument_drivers import Ts760
 
 
 class Ts760Set:
-    def __init__(self, server_ip:str=None, config_path="config.yaml",server_port=8000):
-        self.ts760 = None
+    def __init__(self, server_ip: str | None = None, config_path="config.yaml",server_port=8000):
         if server_ip:
             self.server_ip = server_ip
             self.server_port = server_port
